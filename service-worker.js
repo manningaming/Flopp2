@@ -1,11 +1,10 @@
 const cacheName = 'flappybird-v1';
 
-const staticAssets = [ 
+const staticAssets = [
   './',
   './index.html',
   './manifest.json',
   './service-worker.js'
-  
 ];
 
 self.addEventListener('install', async e => {
@@ -22,26 +21,26 @@ self.addEventListener('fetch', async e => {
   const req = e.request;
   const url = new URL(req.url);
   
-  if(url.origin === location.origin){
+  if (url.origin === location.origin) {
     e.respondWith(cacheFirst(req));
-  }else{
+  } else {
     e.respondWith(networkAndCache(req));
   }
 });
 
-async function cacheFirst(req){
+async function cacheFirst(req) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(req);
   return cached || fetch(req);
 }
 
-async function networkAndCache(req){
+async function networkAndCache(req) {
   const cache = await caches.open(cacheName);
-  try{
+  try {
     const fresh = await fetch(req);
     await cache.put(req, fresh.clone());
     return fresh;
-  }catch(e){
+  } catch (e) {
     const cached = await cache.match(req);
     return cached;
   }
