@@ -1,3 +1,5 @@
+const cacheName = 'flappybird-v1';
+
 const staticAssets = [ 
   './',
   './index.html',
